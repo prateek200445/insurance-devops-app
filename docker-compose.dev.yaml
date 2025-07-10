@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: prateek2004/insurance-frontend:latest
+    ports:
+      - "5173:5173"
+    networks:
+      - aura
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5173"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend:
+    image: prateek2004/insurance-backend:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SECRET_KEY=z%9oq2r3)j+5+7#b8kpr9et*f%o!n&2br7!=35ox4%+-pvk9s1
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+    volumes:
+      - db_data:/app/db
+    networks:
+      - aura
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  db_data:
+
+networks:
+  aura:
+    driver: bridge

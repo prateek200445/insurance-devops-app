@@ -1,0 +1,65 @@
+@import './base.css';
+@import 'tailwindcss';
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-sm {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.wrapper-sm {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.content {
+  padding-top: 100px !important;
+  padding-bottom: 100px !important;
+}
+
+.nav-spacer {
+  float: both;
+}
+
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.6s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 1;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 0;
+}
+
+.bg-beige-200 {
+  background-color: #eee7e3;
+}
+
+.font-breston {
+  font-family: 'Breston', Helvetica, sans-serif;
+}
+
+.font-helvetica {
+  font-family: Helvetica, sans-serif !important;
+}
+
+.font-scp {
+  font-family: 'Source Code Pro', monospace !important;
+}
+
+.page-spacer {
+  padding-top: var(--navbar-height, 80px);
+}

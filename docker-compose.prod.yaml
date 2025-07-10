@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./aura_frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/app/static/
+      - /etc/letsencrypt/live/wydstepbro.com/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/wydstepbro.com/privkey.pem:/etc/ssl/private/privkey.pem:ro
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    networks:
+      - aura
+
+  backend:
+    build:
+      context: ./aura_backend
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    # Collectstatic + Gunicorn
+    #command: sh -c "python manage.py collectstatic --noinput && gunicorn aura_backend.wsgi:application --bind 0.0.0.0:8000"
+    
+    # Migrate + Seed + Collectstatic + Gunicorn
+    command: sh -c "python manage.py migrate && python manage.py seed_aura && python manage.py collectstatic --noinput && gunicorn aura_backend.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/app/static/
+    env_file:
+      - ./aura_backend/.env
+    networks:
+      - aura
+
+networks:
+  aura:
+    driver: bridge
+
+volumes:
+  static_volume:
