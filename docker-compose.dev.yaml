@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   frontend:
+<<<<<<< HEAD
     image: prateek2004/insurance-frontend:latest
     ports:
       - "5173:5173"
@@ -37,3 +38,37 @@ volumes:
 networks:
   aura:
     driver: bridge
+=======
+    build:
+      context: ./aura_frontend
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./aura_frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    environment:
+      - NODE_ENV=development
+    networks:
+      - aura
+
+  backend:
+    build:
+      context: ./aura_backend
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./aura_backend:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - ./aura_backend/.env
+    networks:
+      - aura
+
+networks:
+  aura:
+    driver: bridge
+>>>>>>> 0e5f8308c3ac3ad34b2c4fca7ada2de16b56b36d
